@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EASY PDF HUB - Ultimate PDF Multi-Tool</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reset & Globals */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #f1f1f1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* Header */
+    header {
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeInDown 1s ease forwards;
+    }
+    header h1 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      color: #00e5ff;
+      text-shadow: 0 0 10px #00e5ff;
+    }
+    nav {
+      display: none;
+    }
+    /* Nav for larger screens, if needed in future */
+    @media(min-width: 768px) {
+      nav {
+        display: block;
+      }
+    }
+
+    /* Main content */
+    main {
+      flex: 1;
+      padding: 2rem 1rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      animation: fadeInUp 1s ease forwards;
+    }
+    .intro {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .intro h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #00e5ff;
+      margin-bottom: 0.5rem;
+      text-shadow: 0 0 7px #00e5ff;
+    }
+    .intro p {
+      font-size: 1.15rem;
+      font-weight: 300;
+      color: #b0dffc;
+    }
+
+    /* Grid of tools */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+      gap: 1.5rem;
+    }
+
+    .tool-card {
+      background: rgba(255 255 255 / 0.07);
+      border-radius: 16px;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-shadow: 0 0 25px 0 rgb(0 229 255 / 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        45deg,
+        #00e5ff,
+        #0ff,
+        #00e5ff,
+        #0ff
+      );
+      animation: glowing 3s linear infinite;
+      filter: blur(18px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 0;
+      border-radius: 16px;
+    }
+    .tool-card:hover::before {
+      opacity: 1;
+    }
+    .tool-card:hover {
+      box-shadow: 0 0 35px 4px #00e5ff;
+      transform: translateY(-10px);
+    }
+    .tool-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      z-index: 1;
+      color: #00e5ff;
+    }
+    .tool-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #00d4ff;
+      z-index: 1;
+    }
+
+    /* Advertisement placeholders */
+    .ads-section {
+      margin: 3rem auto;
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ad-container {
+      background: rgba(255 255 255 / 0.1);
+      width: 320px;
+      max-width: 100%;
+      height: 100px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px 0 rgb(0 229 255 / 0.3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #00e5ff;
+      font-weight: 700;
+      font-size: 1.2rem;
+      text-align: center;
+      animation: pulse 3s infinite;
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(0, 0, 0, 0.7);
+      color: #00e5ff;
+      text-align: center;
+      font-weight: 300;
+      padding: 1rem 1rem;
+      box-shadow: 0 -2px 6px rgba(0,0,0,0.7);
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    /* Animations */
+    @keyframes glowing {
+      0% {
+        background-position: 0 0;
+      }
+      50% {
+        background-position: 400% 0;
+      }
+      100% {
+        background-position: 0 0;
+      }
+    }
+    @keyframes pulse {
+      0%, 100% {
+        box-shadow: 0 0 15px 0 rgb(0 229 255 / 0.3);
+        opacity: 1;
+      }
+      50% {
+        box-shadow: 0 0 35px 4px #00e5ff;
+        opacity: 0.85;
+      }
+    }
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive typography and padding */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      .intro h2 {
+        font-size: 2rem;
+      }
+      .tool-card {
+        padding: 1rem;
+      }
+      .tool-icon {
+        font-size: 2.5rem;
+      }
+      .ads-section {
+        justify-content: center;
+      }
+      .ad-container {
+        width: 90vw;
+        height: 90px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>EASY PDF HUB</h1>
+  </header>
+
+  <main>
+    <section class="intro" aria-label="Introduction">
+      <h2>All-in-One PDF Conversion & Editing Suite</h2>
+      <p>Convert, edit, organize, and enhance your PDFs easily — all in one place.</p>
+    </section>
+
+    <section class="tools-grid" aria-label="PDF Tools Section" role="list">
+      <!-- Each tool as a card, role listitem -->
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PDF to Word Converter Tool">
+        <div class="tool-icon">📄➡️📝</div>
+        <div class="tool-name">PDF to Word Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PDF to PowerPoint Converter Tool">
+        <div class="tool-icon">📄➡️📊</div>
+        <div class="tool-name">PDF to PowerPoint Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PDF to Excel Converter Tool">
+        <div class="tool-icon">📄➡️📈</div>
+        <div class="tool-name">PDF to Excel Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Word to PDF Converter Tool">
+        <div class="tool-icon">📝➡️📄</div>
+        <div class="tool-name">Word to PDF Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PowerPoint to PDF Converter Tool">
+        <div class="tool-icon">📊➡️📄</div>
+        <div class="tool-name">PowerPoint to PDF Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PDF Editor Tool">
+        <div class="tool-icon">✏️📄</div>
+        <div class="tool-name">PDF Editor</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PDF to JPG Converter Tool">
+        <div class="tool-icon">📄➡️🖼️</div>
+        <div class="tool-name">PDF to JPG Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="JPG to PDF Converter Tool">
+        <div class="tool-icon">🖼️➡️📄</div>
+        <div class="tool-name">JPG to PDF Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Sign PDF Tool">
+        <div class="tool-icon">✍️📄</div>
+        <div class="tool-name">Sign PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Watermark PDF Tool">
+        <div class="tool-icon">💧📄</div>
+        <div class="tool-name">Watermark PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Rotate PDF Tool">
+        <div class="tool-icon">🔄📄</div>
+        <div class="tool-name">Rotate PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="HTML to PDF Converter Tool">
+        <div class="tool-icon">🌐➡️📄</div>
+        <div class="tool-name">HTML to PDF Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Unlock PDF Tool">
+        <div class="tool-icon">🔓📄</div>
+        <div class="tool-name">Unlock PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Protect PDF Tool">
+        <div class="tool-icon">🔒📄</div>
+        <div class="tool-name">Protect PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Organize PDF Tool">
+        <div class="tool-icon">🗂️📄</div>
+        <div class="tool-name">Organize PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="PDF to PDF/A Converter Tool">
+        <div class="tool-icon">📄➡️📄🅰️</div>
+        <div class="tool-name">PDF to PDF/A Converter</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Repair PDF Tool">
+        <div class="tool-icon">🛠️📄</div>
+        <div class="tool-name">Repair PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Add Page Numbers to PDF Tool">
+        <div class="tool-icon">#️⃣📄</div>
+        <div class="tool-name">Add Page Numbers to PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Scan to PDF Tool">
+        <div class="tool-icon">📠➡️📄</div>
+        <div class="tool-name">Scan to PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="OCR to PDF Tool">
+        <div class="tool-icon">🔍📄</div>
+        <div class="tool-name">OCR to PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Compare PDF Files Tool">
+        <div class="tool-icon">🔎📄📄</div>
+        <div class="tool-name">Compare PDF Files</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Redact PDF Content Tool">
+        <div class="tool-icon">🕵️‍♂️📄</div>
+        <div class="tool-name">Redact PDF Content</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Crop PDF Tool">
+        <div class="tool-icon">✂️📄</div>
+        <div class="tool-name">Crop PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Camera Scan to PDF Tool">
+        <div class="tool-icon">📷➡️📄</div>
+        <div class="tool-name">Camera Scan to PDF</div>
+      </article>
+
+      <article class="tool-card" role="listitem" tabindex="0" aria-label="Image to PDF Converter Tool">
+        <div class="tool-icon">🖼️➡️📄</div>
+        <div class="tool-name">Image to PDF Converter</div>
+      </article>
+    </section>
+
+    <!-- Advertisement Section -->
+    <section class="ads-section" aria-label="Advertisements">
+      <div class="ad-container" id="adsense-ad-1" aria-label="Advertisement space 1">
+        <!-- Insert your Google AdSense code here -->
+        Advertisement 1
+      </div>
+      <div class="ad-container" id="adsense-ad-2" aria-label="Advertisement space 2">
+        <!-- Insert your Google AdSense code here -->
+        Advertisement 2
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 EASY PDF HUB &mdash; All rights reserved.
+  </footer>
+
+  <script>
+    // Placeholder for future interactivity like navigation or tool launching
+    // Currently, just focus on responsiveness and animations.
+
+    // Example: Focus styles for accessibility
+    const tools = document.querySelectorAll('.tool-card');
+    tools.forEach(tool => {
+      tool.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          alert(`You clicked ${tool.querySelector('.tool-name').textContent}`);
+        }
+      });
+    });
+
+    // Google AdSense integration can be added like this:
+    /*
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    */
+  </script>
+
+</body>
+</html>
